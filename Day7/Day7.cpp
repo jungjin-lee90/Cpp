@@ -1,20 +1,109 @@
-﻿// Day7.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
-//
+﻿#include <iostream>
+#include "Character.h"
+#include "Knight.h"
+#include "Archer.h"
+#include "Wizard.h"
+#include <vector>
+#include <queue>
+#include <list>
+#include <map>
 
-#include <iostream>
+enum KeyInput
+{
+    KNIGHT = 1,
+    ARCHER,
+    WIZARD
+};
+
+void containerTest()
+{
+    vector<int> vc = {10, 20, 30};
+    vc.push_back(40);
+
+    int nSum = 0;
+    for (auto i : vc)
+    {
+        nSum += i;
+    }
+    cout << nSum << endl;
+
+    deque<int> dq = {10, 20, 30};
+    dq.push_front(0);
+    dq.push_back(40);
+
+    for (auto i : dq)
+        cout << i << " ";
+
+    cout << endl;
+
+    list<int> ls = {1,2,2,3,4,3,5,5};
+    ls.unique();
+    for (auto i : ls)
+    {
+        cout << i << endl;
+    }
+
+    ls.sort();
+    for (auto i : ls)
+    {
+        cout << i << endl;
+    }
+
+    map<string, int> mp;
+    mp.insert(pair<string, int>("dd", 99));
+    mp["ff"] = 100; // 이거랑 insert랑 같다.
+
+    map<string, int>::iterator iter;
+    for (iter = mp.begin(); iter != mp.end(); iter++)
+    {
+        cout << iter->first << " : " << iter->second << endl;
+    }
+}
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    containerTest();
+    Character CharA, CharB; // 정적
+    CharA.jump();
+
+    Character* ptrChar = &CharA; // 참조
+    ptrChar->jump();
+    
+    int input;
+    vector<Character*> vChar;
+    Character* ptrChar2;
+    bool bBreak = false;
+    while (!bBreak)
+    {
+        cin >> input;
+
+        ptrChar2 = nullptr;
+        switch (input)
+        {
+        case KNIGHT:
+            ptrChar2 = new Knight; // 동적
+            break;
+        case ARCHER:
+            ptrChar2 = new Archer;
+            break;
+        case WIZARD:
+            ptrChar2 = new Wizard;
+            break;
+
+        default:
+            bBreak = true;
+            break;
+        }
+        
+        if (ptrChar2 != nullptr)
+            vChar.push_back(ptrChar2);
+    }
+
+    for (auto &i : vChar)
+    {
+        i->Attack();
+        delete i;
+    }
+    vChar.clear();         
 }
 
-// 프로그램 실행: <Ctrl+F5> 또는 [디버그] > [디버깅하지 않고 시작] 메뉴
-// 프로그램 디버그: <F5> 키 또는 [디버그] > [디버깅 시작] 메뉴
-
-// 시작을 위한 팁: 
-//   1. [솔루션 탐색기] 창을 사용하여 파일을 추가/관리합니다.
-//   2. [팀 탐색기] 창을 사용하여 소스 제어에 연결합니다.
-//   3. [출력] 창을 사용하여 빌드 출력 및 기타 메시지를 확인합니다.
-//   4. [오류 목록] 창을 사용하여 오류를 봅니다.
-//   5. [프로젝트] > [새 항목 추가]로 이동하여 새 코드 파일을 만들거나, [프로젝트] > [기존 항목 추가]로 이동하여 기존 코드 파일을 프로젝트에 추가합니다.
-//   6. 나중에 이 프로젝트를 다시 열려면 [파일] > [열기] > [프로젝트]로 이동하고 .sln 파일을 선택합니다.
