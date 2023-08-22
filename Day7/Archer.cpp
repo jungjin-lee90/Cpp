@@ -2,6 +2,7 @@
 
 Archer::Archer()
 {
+	cout << "Archer" << endl;
 }
 
 Archer::~Archer()
